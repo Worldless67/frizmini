@@ -13,8 +13,12 @@
     </properties>
     <repositories>
         <repository>
-            <id>opencollab</id>
-            <url>https://repo.opencollab.dev/main/</url>
+            <id>opencollab-releases</id>
+            <url>https://repo.opencollab.dev/maven-releases/</url>
+        </repository>
+        <repository>
+            <id>opencollab-snapshots</id>
+            <url>https://repo.opencollab.dev/maven-snapshots/</url>
         </repository>
     </repositories>
     <dependencies>
@@ -27,7 +31,7 @@
         <dependency>
             <groupId>net.luckperms</groupId>
             <artifactId>api</artifactId>
-            <version>5.5</version>
+            <version>5.4</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

@@ -14,11 +14,12 @@ import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 import cn.nukkit.math.Vector3;
+import cn.nukkit.network.protocol.types.DisplaySlot;
+import cn.nukkit.network.protocol.types.SortOrder;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.potion.Effect;
-import cn.nukkit.scoreboard.Scoreboard;
-import cn.nukkit.scoreboard.ScoreboardObjective;
-import cn.nukkit.scoreboard.display.DisplaySlot;
+import cn.nukkit.scoreboard.scoreboard.IScoreboard;
+import cn.nukkit.scoreboard.scoreboard.Scoreboard;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 import net.luckperms.api.LuckPerms;
@@ -28,8 +29,10 @@ import net.luckperms.api.node.types.InheritanceNode;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,7 +42,7 @@ public class FrizMineBedrock extends PluginBase implements Listener {
     private LuckPerms luckPerms;
     private Location lastBeacon;
     private Config economyConfig;
-    private final Map<UUID, Scoreboard> scoreboards = new HashMap<>();
+    private final Map<UUID, IScoreboard> scoreboards = new HashMap<>();
     private final Map<UUID, String> cachedRanks = new ConcurrentHashMap<>();
 
     @Override
@@ -108,7 +111,7 @@ public class FrizMineBedrock extends PluginBase implements Listener {
                 updateScoreboard(player);
                 updateNametag(player);
             }
-        }, 60); // 60 тиков = 3 секунды (меньше лагов)
+        }, 60);
     }
 
     private void updateNametag(Player player) {
@@ -131,25 +134,22 @@ public class FrizMineBedrock extends PluginBase implements Listener {
     }
 
     private void updateScoreboard(Player player) {
-        Scoreboard board = scoreboards.computeIfAbsent(player.getUniqueId(), k -> {
-            Scoreboard b = new Scoreboard();
-            b.addObjective("sidebar", "dummy").setDisplaySlot(DisplaySlot.SIDEBAR);
-            return b;
+        IScoreboard board = scoreboards.computeIfAbsent(player.getUniqueId(), k -> {
+            IScoreboard sb = new Scoreboard("sidebar", "§b§lYaroslavka §f§lCool", "dummy", SortOrder.DESCENDING);
+            sb.addViewer(player, DisplaySlot.SIDEBAR);
+            return sb;
         });
-        ScoreboardObjective obj = board.getObjective("sidebar");
-        if (obj == null) return;
-        
-        obj.setDisplayName("§b§lYaroslavka §f§lCool");
-        obj.getLines().forEach(obj::removeLine);
-        
-        obj.setLine(10, "§7Ник: §f" + player.getName());
-        obj.setLine(9, "§7Ранг: " + getPrefix(getPlayerGroup(player)));
-        obj.setLine(8, "§7Баланс: §e" + getCoins(player));
-        obj.setLine(7, " ");
-        obj.setLine(6, "§7Онлайн: §f" + getServer().getOnlinePlayers().size());
-        obj.setLine(5, "§7Время: §f" + new SimpleDateFormat("HH:mm").format(new Date()));
-        obj.setLine(4, "§7Коорд: §f" + player.getFloorX() + " " + player.getFloorY() + " " + player.getFloorZ());
-        player.setScoreboard(board);
+
+        List<String> lines = new ArrayList<>();
+        lines.add("§7Ник: §f" + player.getName());
+        lines.add("§7Ранг: " + getPrefix(getPlayerGroup(player)));
+        lines.add("§7Баланс: §e" + getCoins(player));
+        lines.add(" ");
+        lines.add("§7Онлайн: §f" + getServer().getOnlinePlayers().size());
+        lines.add("§7Время: §f" + new SimpleDateFormat("HH:mm").format(new Date()));
+        lines.add("§7Коорд: §f" + player.getFloorX() + " " + player.getFloorY() + " " + player.getFloorZ());
+
+        board.setLines(lines);
     }
 
     private void openKitsMenu(Player player) {

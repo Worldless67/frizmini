@@ -2,23 +2,45 @@ name: FrizMineBedrock
 main: ru.frizmin.FrizMineBedrock
 version: 1.0.0
 api: ["1.0.0"]
-author: FrizMine
+author: Yaroslavka
 depend: [LuckPerms]
 commands:
-  kit:
-    description: Получить стартовый набор
+  kits:
+    description: Открыть меню китов
   grant:
-    description: Выдать привилегию игроку
+    description: Выдать привилегию
     permission: frizmin.grant
   talisman:
     description: Выдать талисман
     permission: frizmin.grant
   tp:
-    description: Телепортироваться к игроку
-    permission: frizmin.tp
+    description: Телепорт к игроку
+    permission: frizmin.grant
   vanish:
-    description: Включить/выключить невидимость
-    permission: frizmin.vanish
+    description: Невидимость
+    permission: frizmin.grant
+  killerbeacon:
+    description: Создать Маяк
+    permission: frizmin.grant
+  beacontp:
+    description: ТП к Маяку
+    permission: frizmin.grant
+  meteor:
+    description: Создать Метеорит
+    permission: frizmin.grant
+  shop:
+    description: Донат-магазин
+  sell:
+    description: Скупщик
+  map:
+    description: Карта игроков
+  bal:
+    description: Баланс
+  help:
+    description: Список всех команд
+    aliases: [commands, cmd]
+  staffhelp:
+    description: Список команд администрации
   blacktire:
     description: Выдать Black Tire
     permission: frizmin.grant
@@ -30,8 +52,4 @@ commands:
     permission: frizmin.grant
 permissions:
   frizmin.grant:
-    default: op
-  frizmin.tp:
-    default: op
-  frizmin.vanish:
     default: op

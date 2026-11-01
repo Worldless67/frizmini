@@ -16,10 +16,6 @@
             <id>opencollab</id>
             <url>https://repo.opencollab.dev/main/</url>
         </repository>
-        <repository>
-            <id>luck-repo</id>
-            <url>https://repo.lucko.me/</url>
-        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -31,7 +27,7 @@
         <dependency>
             <groupId>net.luckperms</groupId>
             <artifactId>api</artifactId>
-            <version>5.4</version>
+            <version>5.5</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

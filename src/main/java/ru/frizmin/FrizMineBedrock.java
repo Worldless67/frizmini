@@ -113,7 +113,7 @@ public class FrizMineBedrock extends PluginBase {
     }
 
     private Item createTalisman(String id) {
-        Item item = Item.get(Item.TOTEM_OF_UNDYING);
+        Item item = Item.get("totem_of_undying");
         switch (id) {
             case "crusher": item.setCustomName(TextFormat.RED + "Талисман Крушителя"); break;
             case "punisher": item.setCustomName(TextFormat.DARK_PURPLE + "Талисман Карателя"); break;
